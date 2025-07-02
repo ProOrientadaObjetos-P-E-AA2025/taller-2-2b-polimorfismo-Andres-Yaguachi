@@ -68,8 +68,7 @@ public class Combate {
                     luchador[1].hP -= accion[0] - (accion[0] * (luchador[1].blind / 100));
                     if (!luchador[0].clase.equals("Arquero")) {
                         luchador[1].blind *= accion[1];
-                    }
-                    luchador[0].calcularLevel();
+                    }                    luchador[0].calcularLevel();
                     prioridad(false);
                 }
                 case 3 -> {
