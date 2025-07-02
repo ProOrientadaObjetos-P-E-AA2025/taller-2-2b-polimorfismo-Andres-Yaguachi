@@ -50,7 +50,7 @@ public class EjecutarJuegoRol {
                             combate.inicializarCombatientes(opc, 133, 18, 15, "Faenor", i);
                             break;
                         case 3:
-                            combate.inicializarCombatientes(opc, 145, 8, 20, "Silvar", i);
+                            combate.inicializarCombatientes(opc, 145, 8, 18, "Silvar", i);
                             break;
 
                     }
@@ -60,19 +60,19 @@ public class EjecutarJuegoRol {
                     System.out.println("Opcion no valida");
                     return;
             }
-            if((combate.luchador[1]!= null) && (combate.luchador[0].nombre.equals(combate.luchador[0].nombre))){
-                System.out.println("No puede seleccionar el mismo personaje dos veces, seleccione otro...");
+            if ((combate.luchador[1] != null) && (combate.luchador[0].nombre.equals(combate.luchador[1].nombre))) {
+                System.out.println("\nNo puede seleccionar el mismo personaje dos veces, seleccione otro...");
                 i--;
             }
         }
-        combate.prioridad();
+        combate.prioridad(true);
         combate.combate();
 
     }
 
     public static int menu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("=== Seleccion de tipo de personaje ===");
+        System.out.println("\n=== Seleccion de tipo de personaje ===");
         System.out.println("1. Guerrero");
         System.out.println("2. Mago");
         System.out.println("3. Arquero");
@@ -108,7 +108,7 @@ public class EjecutarJuegoRol {
         System.out.println("\n=== Seleccion de Arquero ===");
         System.out.println("[1] Lira   - Vida: 138 | Ataque: 12 | Blindaje: 10");
         System.out.println("[2] Faenor - Vida: 133 |Ataque: 18 | Blindaje: 15");
-        System.out.println("[3] Silvar - Vida: 145 |Ataque: 8 | Blindaje: 20");
+        System.out.println("[3] Silvar - Vida: 145 |Ataque: 8 | Blindaje: 18");
         System.out.print("Elige tu arquero: ");
         int opcionTipo = sc.nextInt();
         return opcionTipo;

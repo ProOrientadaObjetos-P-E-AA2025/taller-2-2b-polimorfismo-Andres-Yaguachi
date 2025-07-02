@@ -4,7 +4,7 @@ public class Arqueros extends Personaje {
 
     public Arqueros(double hP, double atack, double blind, String nombre) {
         super(hP, atack, blind, nombre);
-        this.clase = "Arqueros";
+        this.clase = "Arquero";
     }
 
     @Override

@@ -9,155 +9,140 @@ public class Combate {
 
     public Combate() {
         sc = new Scanner(System.in);
-
+        luchador = new Personaje[2];
     }
 
-    public void inicializarCombatientes(int num, double hP, double atack, double blind, String nombre) {
+    public void inicializarCombatientes(int num, double hP, double atack, double blind, String nombre, int rep) {
         switch (num) {
             case 1 -> {
-                luchador[num] = new Guerrero(hP, atack, blind, nombre);
+                luchador[rep] = new Guerrero(hP, atack, blind, nombre);
             }
             case 2 -> {
-                luchador[num] = new Mago(hP, atack, blind, nombre);
+                luchador[rep] = new Mago(hP, atack, blind, nombre);
             }
             case 3 -> {
-                luchador[num] = new Arqueros(hP, atack, blind, nombre);
+                luchador[rep] = new Arqueros(hP, atack, blind, nombre);
             }
         }
+    }
+
+    public void prioridad(boolean momento) {
+        Personaje aux;
+        if (momento) {
+            if ((luchador[0].getClass().equals(luchador[1].getClass())) && (luchador[0].getBlind() > luchador[1].getBlind())) {
+                aux = luchador[0];
+                luchador[0] = luchador[1];
+                luchador[1] = aux;
+            } else if ((luchador[0].clase.equals("Mago")) && (luchador[1].clase.equals("Guerrero"))
+                    || (luchador[0].clase.equals("Arquero")) && (luchador[1].clase.equals("Mago"))
+                    || (luchador[0].clase.equals("Guerrero")) && (luchador[1].clase.equals("Arquero"))) {
+                aux = luchador[0];
+                luchador[0] = luchador[1];
+                luchador[1] = aux;
+            }
+        } else {
+            if (luchador[1].blind < luchador[0].blind) {
+                aux = luchador[0];
+                luchador[0] = luchador[1];
+                luchador[1] = aux;
+            }
+        }
+
     }
 
     public void combate() {
         int c = 0;
         double[] accion = new double[2];
-        if ((c1 != null) && (c2 != null)) {
-            System.out.println("Combate entre Guerrero y mago");
-            while (c2.gethP() > 0 && c1.gethP() > 0) {
-                System.out.println("Turno de guerrero");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c1.getHability1();
-                        c2.hP -= accion[0];
-                    }
-                    case 2 -> {
-                        accion = c1.getHability2();
-                        c2.hP -= accion[0];
-                        c2.blind = accion[1];
-                    }
-                    case 3 -> {
-                        c1.getHability3();
-                    }
+        double acc;
+        System.out.println("Combate entre " + luchador[0].nombre + " y " + luchador[1].nombre);
+        while (luchador[0].gethP() > 0 && luchador[1].gethP() > 0) {
+            System.out.println("Turno de: " + luchador[0].nombre);
+            switch (elegirHabilidad(c)) {
+                case 1 -> {
+                    acc = luchador[0].getHability1();
+                    luchador[1].hP -= acc - (acc * (luchador[1].blind / 100));
+                    luchador[0].calcularLevel();
                 }
+                case 2 -> {
+                    accion = luchador[0].getHability2();
+                    luchador[1].hP -= accion[0] - (accion[0] * (luchador[1].blind / 100));
+                    if (!luchador[0].clase.equals("Arquero")) {
+                        luchador[1].blind *= accion[1];
+                    }
+                    luchador[0].calcularLevel();
+                    prioridad(false);
+                }
+                case 3 -> {
+                    luchador[0].getHability3();
+                    luchador[0].calcularLevel();
+                }
+            }
 
-                System.out.println("Turno de Mago");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c2.getHability1();
-                        c1.hP -= accion[0];
-                        c1.blind -= accion[1];
-                    }
-                    case 2 -> {
-                        accion = c2.getHability2();
-                        c1.hP -= accion[0];
-                    }
-                    case 3 -> {
-                        c2.getHability3();
-                    }
+            System.out.println("Turno de: " + luchador[1].nombre);
+            switch (elegirHabilidad(c)) {
+                case 1 -> {
+                    acc = luchador[1].getHability1();
+                    luchador[0].hP -= acc - (acc * (luchador[0].blind / 100));
+                    luchador[1].calcularLevel();
                 }
-                System.out.println(c1);
-                System.out.println(c2);
-                c++;
+                case 2 -> {
+                    accion = luchador[1].getHability2();
+                    luchador[0].hP -= accion[0] - (accion[0] * (luchador[0].blind / 100));
+                    if (!luchador[1].clase.equals("Arquero")) {
+                        luchador[0].blind *= accion[1];
+                    }
+                    luchador[1].calcularLevel();
+                    prioridad(false);
+
+                }
+                case 3 -> {
+                    luchador[1].getHability3();
+                    luchador[1].calcularLevel();
+                }
             }
-        } else if ((c2 != null) && (c3 != null)) {
-            System.out.println("Combate entre Mago y Arquero");
-            while (c2.gethP() > 0 && c1.gethP() != 0) {
-                System.out.println("Turno de Mago");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c1.getHability1();
-                        c2.hP -= accion[0];
-                    }
-                    case 2 -> {
-                        accion = c1.getHability2();
-                        c2.hP -= accion[0];
-                        c2.blind = accion[1];
-                    }
-                    case 3 -> {
-                        c1.getHability3();
-                    }
-                }
-                System.out.println("Turno de Arquero");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c2.getHability1();
-                        c1.hP -= accion[0];
-                        c1.blind -= accion[1];
-                    }
-                    case 2 -> {
-                        accion = c2.getHability2();
-                        c1.hP -= accion[0];
-                    }
-                    case 3 -> {
-                        c2.getHability3();
-                    }
-                }
-                System.out.println(c2);
-                System.out.println(c3);
-                c++;
-            }
-        } else {
-            System.out.println("Combate entre Guerrero y Arquero");
-            while (c2.gethP() > 0 && c1.gethP() != 0) {
-                System.out.println("Turno de Mago");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c1.getHability1();
-                        c3.hP -= accion[0];
-                    }
-                    case 2 -> {
-                        accion = c1.getHability2();
-                        c3.hP -= accion[0];
-                        c3.blind = accion[1];
-                    }
-                    case 3 -> {
-                        c1.getHability3();
-                    }
-                }
-                System.out.println("Turno de guerrero");
-                switch (elegirHabilidad(c)) {
-                    case 1 -> {
-                        accion = c3.getHability1();
-                        c1.hP -= accion[0];
-                        c1.blind -= accion[1];
-                    }
-                    case 2 -> {
-                        accion = c3.getHability2();
-                        c1.hP -= accion[0];
-                    }
-                    case 3 -> {
-                        c3.getHability3();
-                    }
-                }
-                System.out.println(c1);
-                System.out.println(c3);
+            System.out.println("\nParametros Actualizados");
+            System.out.println("/////////////////////////");
+            System.out.println(luchador[0]);
+            System.out.println("/////////////////////////");
+            System.out.println(luchador[1]);
+
+            if (c == 3) {
+                c = 0;
+            } else {
                 c++;
             }
         }
+        if (luchador[0].gethP() <= 0 && luchador[1].gethP() <= 0) {
+            System.out.println("¡Empate!");
+        } else if (luchador[0].gethP() <= 0) {
+            System.out.println(luchador[1].nombre + " ha ganado!");
+        } else {
+            System.out.println(luchador[0].nombre + " ha ganado!");
+        }
+
     }
 
     public int elegirHabilidad(int num) {
         int opc;
-        if (num == 0) {
-            System.out.println("\nHabilidad");
-            System.out.println("[1] Ataque normal");
-        } else if (num == 1) {
-            System.out.println("\nHabilidades");
-            System.out.println("[1] Ataque normal");
-            System.out.println("[2] Ataque cargado");
-        } else {
-            System.out.println("\nHabilidades");
-            System.out.println("[1] Ataque normal");
-            System.out.println("[2] Ataque cargado");
-            System.out.println("[3] Habilidad espeecial");
+        switch (num) {
+            case 0:
+                System.out.println("\nHabilidad");
+                System.out.println("[1] Ataque normal");
+                break;
+            case 2:
+                System.out.println("\nHabilidades");
+                System.out.println("[1] Ataque normal");
+                System.out.println("[2] Ataque cargado");
+                break;
+            case 3:
+                System.out.println("\nHabilidades");
+                System.out.println("[1] Ataque normal");
+                System.out.println("[3] Habilidad espeecial");
+                break;
+            default:
+                System.out.println("\nHabilidad");
+                System.out.println("[1] Ataque normal");
+                break;
         }
         opc = sc.nextInt();
         sc.nextLine();

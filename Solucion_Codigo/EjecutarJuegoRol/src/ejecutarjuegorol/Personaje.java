@@ -34,7 +34,7 @@ public abstract class Personaje {
     }
 
     public void calcularLevel() {
-        if (xP > 150) {
+        if (xP > 300) {
             level++;
             hP *= 1.1;
             atack *= 1.2;
@@ -67,8 +67,7 @@ public abstract class Personaje {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nPersonaje: ").append(nombre);
-        sb.append(" \nClase:").append(clase);
+        sb.append(clase).append(" :").append(nombre);
         sb.append(" \nVida: ").append(hP);
         sb.append(" \nXp: ").append(xP);
         sb.append(" \nAtaque: ").append(atack);

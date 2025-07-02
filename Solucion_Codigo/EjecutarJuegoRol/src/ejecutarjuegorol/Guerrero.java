@@ -22,8 +22,8 @@ public class Guerrero extends Personaje {
         double[] cambios = new double[2];
         System.out.print("\nDaño: " + (atack * 2));
         cambios[0] = (atack * 2);
-        System.out.print("\nBlindaje ignorado");
-        cambios[1] = 0;
+        System.out.print("\nBlindaje reducido en 90%");
+        cambios[1] = 0.9;
         System.out.println("\nExperiencia Aumentada en 65 puntos ");
         xP += 65;
         return cambios;
