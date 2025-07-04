@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EjecutarRestaurante {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Menu> listaMenus = new ArrayList<>();
@@ -76,6 +77,11 @@ public class EjecutarRestaurante {
                     break;
             }
         }
+        double total = 0;
+        for (int i = 0; i < listaMenus.size(); i++) {
+            total += listaMenus.get(i).valorTotal;
+        }
+        System.out.printf("\nEl total de su compra es: %f.2", total);
 
         System.out.println("\n--- MENUS INGRESADOS ---");
         for (int i = 0; i < listaMenus.size(); i++) {
@@ -86,4 +92,3 @@ public class EjecutarRestaurante {
         }
     }
 }
-
