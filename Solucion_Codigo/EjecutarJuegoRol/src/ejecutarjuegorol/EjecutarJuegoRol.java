@@ -106,9 +106,9 @@ public class EjecutarJuegoRol {
     public static int menu3() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\n=== Seleccion de Arquero ===");
-        System.out.println("[1] Lira   - Vida: 138 | Ataque: 12 | Blindaje: 10");
+        System.out.println("[1] Lira   - Vida: 138 |Ataque: 12 | Blindaje: 10");
         System.out.println("[2] Faenor - Vida: 133 |Ataque: 18 | Blindaje: 15");
-        System.out.println("[3] Silvar - Vida: 145 |Ataque: 8 | Blindaje: 18");
+        System.out.println("[3] Silvar - Vida: 145 |Ataque: 8  | Blindaje: 18");
         System.out.print("Elige tu arquero: ");
         int opcionTipo = sc.nextInt();
         return opcionTipo;
