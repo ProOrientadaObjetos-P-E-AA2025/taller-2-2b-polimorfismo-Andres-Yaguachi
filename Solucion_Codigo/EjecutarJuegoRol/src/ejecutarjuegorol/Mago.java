@@ -2,19 +2,33 @@ package ejecutarjuegorol;
 
 public class Mago extends Personaje {
 
-    public Mago(double hP, double atack, double blind, String nombre) {
+    protected double mana;
+    protected double concentracion;
+
+    public Mago(double hP, double atack, double blind, String nombre, double mana) {
         super(hP, atack, blind, nombre);
         this.clase = "Mago";
+        this.mana = mana;
+        concentracion = 0;
+    }
+
+    public void refuerzoMana() {
+        if (concentracion >= mana) {
+            hP += 10;
+            atack += 10;
+        }
+
     }
 
     @Override
     public double getHability1() {
         double cambios;
         System.out.print("\nDaño: " + atack);
-        cambios = atack;     
+        cambios = atack;
         System.out.println("\nExperiencia Aumentada en 5 puntos ");
         xP += 5;
-
+        concentracion++;
+        refuerzoMana();
         return cambios;
     }
 
@@ -29,7 +43,8 @@ public class Mago extends Personaje {
         blind *= 1.5;
         System.out.println("\nExperiencia Aumentada en 5 puntos ");
         xP += 5;
-
+        concentracion++;
+        refuerzoMana();
         return cambios;
     }
 
@@ -40,5 +55,7 @@ public class Mago extends Personaje {
         hP *= 1.5;
         System.out.println("El mago tiene aumento de ataque %20.....");
         atack *= 1.2;
+        concentracion += 5;
+        refuerzoMana();
     }
 }

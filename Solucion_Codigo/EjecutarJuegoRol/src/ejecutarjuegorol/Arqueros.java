@@ -2,9 +2,30 @@ package ejecutarjuegorol;
 
 public class Arqueros extends Personaje {
 
-    public Arqueros(double hP, double atack, double blind, String nombre) {
+    protected double precision;
+    protected double desgarro;
+
+    public Arqueros(double hP, double atack, double blind, String nombre, double precision, double desgarro) {
         super(hP, atack, blind, nombre);
         this.clase = "Arquero";
+        this.precision = precision;
+        this.desgarro = desgarro;
+    }
+
+    public double tiroPreciso() {
+        int probabilidad = (int) (Math.random() * 100);
+        if (probabilidad <= precision) {
+            return ((precision / 100) + 1);
+        }
+        return 1;
+    }
+
+    public double desgarro() {
+        int probabilidad = (int) (Math.random() * 100);
+        if (probabilidad >= desgarro) {
+            return (desgarro / 100);
+        }
+        return 1;
     }
 
     @Override
@@ -13,17 +34,18 @@ public class Arqueros extends Personaje {
         System.out.print("\nDaño: " + atack);
         System.out.println("\nExperiencia Aumentada en 15 puntos ");
         xP += 15;
-        cambios = atack;
+        cambios = atack * tiroPreciso();
         return cambios;
     }
 
     @Override
     public double[] getHability2() {
-        double[] cambios = new double[1];
+        double[] cambios = new double[2];
         System.out.print("\nDaño: " + (atack * 1.5));
         System.out.println("\nExperiencia Aumentada en 25 puntos ");
         xP += 25;
-        cambios[0] = (atack * 1.5);
+        cambios[0] = (atack * 1.5) * tiroPreciso();
+        cambios[1] = 1 * desgarro();
         return cambios;
     }
 

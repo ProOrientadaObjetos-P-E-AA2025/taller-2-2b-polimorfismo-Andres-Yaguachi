@@ -2,9 +2,20 @@ package ejecutarjuegorol;
 
 public class Guerrero extends Personaje {
 
-    public Guerrero(double hP, double atack, double blind, String nombre) {
+    protected double critico;
+
+    public Guerrero(double hP, double atack, double blind, String nombre, double critico) {
         super(hP, atack, blind, nombre);
         this.clase = "Guerrero";
+        this.critico = critico;
+    }
+
+    public double critico() {
+        int probabilidad = (int) (Math.random() * 100);
+        if (probabilidad <= critico) {
+            return ((critico / 100) + 1);
+        }
+        return 1;
     }
 
     @Override
@@ -13,7 +24,7 @@ public class Guerrero extends Personaje {
         System.out.print("\nDaño: " + atack);
         System.out.println("\nExperiencia Aumentada en 30 puntos ");
         xP += 30;
-        cambios = atack;
+        cambios = atack * critico();
         return cambios;
     }
 
@@ -21,7 +32,7 @@ public class Guerrero extends Personaje {
     public double[] getHability2() {
         double[] cambios = new double[2];
         System.out.print("\nDaño: " + (atack * 2));
-        cambios[0] = (atack * 2);
+        cambios[0] = (atack * 2) * critico();
         System.out.print("\nBlindaje reducido en 90%");
         cambios[1] = 0.9;
         System.out.println("\nExperiencia Aumentada en 65 puntos ");

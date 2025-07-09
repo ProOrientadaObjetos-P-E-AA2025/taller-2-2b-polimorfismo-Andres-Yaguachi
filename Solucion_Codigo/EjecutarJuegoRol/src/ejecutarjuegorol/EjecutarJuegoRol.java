@@ -6,6 +6,7 @@ public class EjecutarJuegoRol {
 
     public static void main(String[] args) {
         int opc;
+        String ganador;
         Combate combate = new Combate();
         for (int i = 0; i < 2; i++) {
             opc = menu();
@@ -14,13 +15,16 @@ public class EjecutarJuegoRol {
 
                     switch (menu1()) {
                         case 1:
-                            combate.inicializarCombatientes(opc, 140, 20, 20, "Thorgar", i);
+                            Guerrero g1 = new Guerrero(140, 20, 20, "Thorgar", 15);
+                            combate.inicializarCombatientes(g1, i);
                             break;
                         case 2:
-                            combate.inicializarCombatientes(opc, 135, 25, 17, "Brakka", i);
+                            Guerrero g2 = new Guerrero(135, 25, 17, "Brakka", 20F);
+                            combate.inicializarCombatientes(g2, i);
                             break;
                         case 3:
-                            combate.inicializarCombatientes(opc, 150, 15, 15, "Korgan", i);
+                            Guerrero g3 = new Guerrero(150, 15, 15, "Korgan", 25);
+                            combate.inicializarCombatientes(g3, i);
                             break;
 
                     }
@@ -29,13 +33,16 @@ public class EjecutarJuegoRol {
                 case 2:
                     switch (menu2()) {
                         case 1:
-                            combate.inicializarCombatientes(opc, 130, 10, 30, "Elrion", i);
+                            Mago m1 = new Mago(130, 10, 30, "Elrion", 10);
+                            combate.inicializarCombatientes(m1, i);
                             break;
                         case 2:
-                            combate.inicializarCombatientes(opc, 145, 8, 25, "Valtor", i);
+                            Mago m2 = new Mago(145, 8, 25, "Valtor", 15);
+                            combate.inicializarCombatientes(m2, i);
                             break;
                         case 3:
-                            combate.inicializarCombatientes(opc, 135, 15, 26, "Myrddin", i);
+                            Mago m3 = new Mago(135, 15, 26, "Myrddin", 12);
+                            combate.inicializarCombatientes(m3, i);
                             break;
 
                     }
@@ -44,13 +51,16 @@ public class EjecutarJuegoRol {
                 case 3:
                     switch (menu3()) {
                         case 1:
-                            combate.inicializarCombatientes(opc, 138, 12, 10, "Lira", i);
+                            Arqueros a1 = new Arqueros(138, 12, 10, "Lira", 19, 87);
+                            combate.inicializarCombatientes(a1, i);
                             break;
                         case 2:
-                            combate.inicializarCombatientes(opc, 133, 18, 15, "Faenor", i);
+                            Arqueros a2 = new Arqueros(133, 18, 15, "Faenor", 20, 89);
+                            combate.inicializarCombatientes(a2, i);
                             break;
                         case 3:
-                            combate.inicializarCombatientes(opc, 145, 8, 18, "Silvar", i);
+                            Arqueros a3 = new Arqueros(145, 8, 18, "Silvar", 25, 95);
+                            combate.inicializarCombatientes(a3, i);
                             break;
 
                     }
@@ -66,7 +76,8 @@ public class EjecutarJuegoRol {
             }
         }
         combate.prioridad(true);
-        combate.combate();
+        ganador = combate.combate();
+        System.out.println("\n" + ganador);
 
     }
 

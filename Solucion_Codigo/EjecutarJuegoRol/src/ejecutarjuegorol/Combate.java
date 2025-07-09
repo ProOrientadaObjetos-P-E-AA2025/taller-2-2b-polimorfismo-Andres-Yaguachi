@@ -1,29 +1,17 @@
 package ejecutarjuegorol;
 
-import java.util.Scanner;
+import java.util.Random;
 
 public class Combate {
 
-    Scanner sc;
     Personaje[] luchador;
 
     public Combate() {
-        sc = new Scanner(System.in);
         luchador = new Personaje[2];
     }
 
-    public void inicializarCombatientes(int num, double hP, double atack, double blind, String nombre, int rep) {
-        switch (num) {
-            case 1 -> {
-                luchador[rep] = new Guerrero(hP, atack, blind, nombre);
-            }
-            case 2 -> {
-                luchador[rep] = new Mago(hP, atack, blind, nombre);
-            }
-            case 3 -> {
-                luchador[rep] = new Arqueros(hP, atack, blind, nombre);
-            }
-        }
+    public void inicializarCombatientes(Personaje p, int rep) {
+        luchador[rep] = p;
     }
 
     public void prioridad(boolean momento) {
@@ -50,56 +38,52 @@ public class Combate {
 
     }
 
-    public void combate() {
+    public String combate() {
         int c = 0;
-        double[] accion = new double[2];
+        double[] accion;
         double acc;
         System.out.println("Combate entre " + luchador[0].nombre + " y " + luchador[1].nombre);
         while (luchador[0].gethP() > 0 && luchador[1].gethP() > 0) {
             System.out.println("Turno de: " + luchador[0].nombre);
             switch (elegirHabilidad(c)) {
-                case 1 -> {
+                case 0 -> {
                     acc = luchador[0].getHability1();
                     luchador[1].hP -= acc - (acc * (luchador[1].blind / 100));
                     luchador[0].calcularLevel();
                 }
-                case 2 -> {
+                case 1 -> {
                     accion = luchador[0].getHability2();
                     luchador[1].hP -= accion[0] - (accion[0] * (luchador[1].blind / 100));
-                    if (!luchador[0].clase.equals("Arquero")) {
-                        luchador[1].blind *= accion[1];
-                    }
+                    luchador[1].blind *= accion[1];
                     luchador[0].calcularLevel();
-                    prioridad(false);
+
                 }
-                case 3 -> {
+                case 2 -> {
                     luchador[0].getHability3();
                     luchador[0].calcularLevel();
                 }
             }
             if (luchador[1].hP <= 0) {
-                System.out.println("El combate ha finalizado");
+                System.out.println("\nEl combate ha finalizado");
                 break;
 
             }
-            System.out.println("Turno de: " + luchador[1].nombre);
+            System.out.println("\nTurno de: " + luchador[1].nombre);
             switch (elegirHabilidad(c)) {
-                case 1 -> {
+                case 0 -> {
                     acc = luchador[1].getHability1();
                     luchador[0].hP -= acc - (acc * (luchador[0].blind / 100));
                     luchador[1].calcularLevel();
                 }
-                case 2 -> {
+                case 1 -> {
                     accion = luchador[1].getHability2();
                     luchador[0].hP -= accion[0] - (accion[0] * (luchador[0].blind / 100));
-                    if (!luchador[1].clase.equals("Arquero")) {
-                        luchador[0].blind *= accion[1];
-                    }
+                    luchador[0].blind *= accion[1];
                     luchador[1].calcularLevel();
                     prioridad(false);
 
                 }
-                case 3 -> {
+                case 2 -> {
                     luchador[1].getHability3();
                     luchador[1].calcularLevel();
                 }
@@ -108,7 +92,7 @@ public class Combate {
             System.out.println("/////////////////////////");
             System.out.println(luchador[0]);
             System.out.println("/////////////////////////");
-            System.out.println(luchador[1]);
+            System.out.println(luchador[1] + "\n");
 
             if (c == 3) {
                 c = 0;
@@ -117,39 +101,32 @@ public class Combate {
             }
         }
         if (luchador[0].gethP() <= 0 && luchador[1].gethP() <= 0) {
-            System.out.println("¡Empate!");
+            return ("¡Empate!");
         } else if (luchador[0].gethP() <= 0) {
-            System.out.println(luchador[1].nombre + " ha ganado!");
+            return (luchador[1].nombre + " ha ganado!");
         } else {
-            System.out.println(luchador[0].nombre + " ha ganado!");
+            return (luchador[0].nombre + " ha ganado!");
         }
 
     }
 
     public int elegirHabilidad(int num) {
+        Random random = new Random();
         int opc;
         switch (num) {
-            case 0:
-                System.out.println("\nHabilidad");
-                System.out.println("[1] Ataque normal");
+            case 1:
+                opc = 0;
                 break;
             case 2:
-                System.out.println("\nHabilidades");
-                System.out.println("[1] Ataque normal");
-                System.out.println("[2] Ataque cargado");
+                opc = random.nextInt(1);
                 break;
             case 3:
-                System.out.println("\nHabilidades");
-                System.out.println("[1] Ataque normal");
-                System.out.println("[3] Habilidad espeecial");
+                opc = random.nextInt(2);
                 break;
             default:
-                System.out.println("\nHabilidad");
-                System.out.println("[1] Ataque normal");
+                opc = 0;
                 break;
         }
-        opc = sc.nextInt();
-        sc.nextLine();
         return opc;
     }
 }
